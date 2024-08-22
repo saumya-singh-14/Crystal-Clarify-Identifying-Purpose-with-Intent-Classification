@@ -1,4 +1,5 @@
-# intent_classification
+# Intent classification for a chatbot using Convolutional Neural Networks
+
 This is Keras implementation for the task of sentence classification using CNNs.
 
 Dataset for the above task was obtained from the project [Natural Language Understanding benchmark ](https://github.com/snipsco/nlu-benchmark/tree/master/2017-06-custom-intent-engines)
@@ -35,3 +36,5 @@ There are many open source python packages for making  a chatbot, Rasa  is one o
 ](https://arxiv.org/abs/1510.03820)
 
 [An Empirical Evaluation of Generic Convolutional and Recurrent Networks for Sequence Modeling](https://arxiv.org/abs/1803.01271)
+
+
