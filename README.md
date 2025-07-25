@@ -1,40 +1,89 @@
-# Intent classification for a chatbot using Convolutional Neural Networks
+# Intentify
 
-This is Keras implementation for the task of sentence classification using CNNs.
+A deep learning project for classifying user intents (e.g., AddToPlaylist, GetWeather, etc.) from text input.
+Uses Convolutional Neural Networks (CNN) + pre-trained GloVe embeddings to learn from short text sentences, and deploys as an interactive web app using Streamlit.
 
-Dataset for the above task was obtained from the project [Natural Language Understanding benchmark ](https://github.com/snipsco/nlu-benchmark/tree/master/2017-06-custom-intent-engines)
+# Project Overview
 
-Text used for the training falls under the six categories namely, AddToPlaylist, BookRestaurant, GetWeather , RateBook , SearchCreativeWork, SearchScreeningEvent each having nearly 2000 sentences.
+This project demonstrates:
 
-To prepare the dataset, from the main project's directory, open terminal and type:
+Data preprocessing from raw JSON to clean, trainable format
 
-```bash
-$ python prepare_data.py
-```
+Building & training a CNN text classifier
 
-Check [Intent_Classification_Keras_Glove.ipynb](https://github.com/ajinkyaT/CNN_Intent_Classification/blob/master/Intent_Classification_Keras_Glove.ipynb) for the model building and training part. Below is the model overview. 
+Using pre-trained word embeddings (GloVe) for better performance
 
-![image](https://github.com/brightmart/text_classification/raw/master/images/TextCNN.JPG "TextCNN")
+Label encoding & saving preprocessors for reuse
 
-Although RNN's like LSTM and GRU are widely used for language modelling tasks but CNN's have also proven to be quite faster to train owing to data parallelization while training and give better results than the LSTM ones. [Here](https://github.com/brightmart/text_classification#performance) is a brief comparison between different methods to solve sentence classification, as can be seen TextCNN gives best result of all and also trains faster. I was able to achieve 99% accuracy on training and validation dataset within a minute after 3 epochs when trained on a regular i7 CPU.
+Real-time predictions via Streamlit UI
 
-#### What lies ahead?
+The system predicts intents from text input, supporting these 6 categories - AddToPlaylist, BookRestaurant, GetWeather, RateBook, SearchCreativeWork, SearchScreeningEvent
 
-Intent classification and named entity recognition are the two most important parts while making a goal oriented chatbot.
+# Architecture & Steps
 
-There are many open source python packages for making  a chatbot, Rasa  is one of them. The cool thing about Rasa is that every part of the stack is fully customizable and easily interchangeable. Although Rasa has an excellent built in support for intent classification task but we can also specify our own model for the task, check [Processing Pipeline](https://nlu.rasa.com/pipeline.html) for more information on it. 
+1. Data Preparation (prepare.py)
+Reads raw JSON files from data/raw_json_data/
+Cleans text (removes symbols, lowercases)
+Saves:
+.txt files (cleaned text)
+.npy arrays (train_text.npy, train_label.npy, etc.)
+Labels are kept as strings initially (e.g., "GetWeather")
 
+2. Model Training (train.py)
+Loads:
+Pre-trained GloVe vectors (glove.6B.100d.txt)
+Cleaned data (.npy)
+Tokenizes text -> converts to padded sequences
+Encodes labels with LabelEncoder → saves encoder (label_encoder.pkl)
 
-## Resources
+CNN:
+Embedding layer (with GloVe weights, frozen)
+Multiple convolution filters ( andnel sizes: 2,3,5)
+Max-pooling
+Dropout (prevents overfitting)
+Dense layer with softmax output
+Compiles with categorical_crossentropy loss & adam optimizer
+Splits into train & validation sets
+Trains & plots accuracy / loss
 
-[Using pre-trained word embeddings in a Keras model](https://blog.keras.io/using-pre-trained-word-embeddings-in-a-keras-model.html)
+Saves:
+Trained model (model.h5)
+Tokenizer (tokenizer.pkl)
+Label encoder
 
-[Convolutional Neural Networks for Sentence Classification
-](https://arxiv.org/abs/1408.5882)
+3. Prediction & Testing (test.py)
+Loads saved model & preprocessors
+Defines functions to:
+Tokenize & pad new input text
+Predict intent (using softmax argmax)
+Runs a Streamlit app:
+User enters sentence → shows predicted intent in real time
 
-[A Sensitivity Analysis of (and Practitioners' Guide to) Convolutional Neural Networks for Sentence Classification
-](https://arxiv.org/abs/1510.03820)
+# Performance
 
-[An Empirical Evaluation of Generic Convolutional and Recurrent Networks for Sequence Modeling](https://arxiv.org/abs/1803.01271)
+Training accuracy: ~99%
 
+Validation accuracy: ~98%
 
+Robust even on small dataset, thanks to GloVe embeddings
+
+# Setup & Installation
+
+1. Make sure you have Python 3.7+ installed.
+
+2. Install required packages:
+pip install numpy matplotlib scikit-learn  andas tensorflow joblib streamlit
+
+3. How to Run
+
+i. Prepare data
+python prepare.py
+(Cleans text, creates .txt and .npy files)
+
+ii. Train model
+python train.py
+(Builds CNN model, loads GloVe embeddings, saves: model.h5 tokenizer.pkl label_encoder.pkl, plots accuracy & loss curves)
+
+iii. Predict intents (web app)
+streamlit run test.py
+(Opens browser, enter sentence -> predicts intent)
