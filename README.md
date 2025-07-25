@@ -30,23 +30,23 @@ Labels are kept as strings initially (e.g., "GetWeather")
 
 3. Model Training (train.py)
    
-        Loads:  
-        Pre-trained GloVe vectors (glove.6B.100d.txt)  
-        Cleaned data (.npy)  
-        Tokenizes text -> converts to padded sequences  
-        Encodes labels with LabelEncoder → saves encoder (label_encoder.pkl)
-        
-        CNN:  
-        Embedding layer (with GloVe weights, frozen)  
-        Multiple convolution filters ( andnel sizes: 2,3,5)  
-        Max-pooling  
-        Dropout (prevents overfitting)  
-        Dense layer with softmax output  
-        Compiles with categorical_crossentropy loss & adam optimizer  
-        Splits into train & validation sets  
-        Trains & plots accuracy / loss
-        
-        Saves:  
+i. Loads:  
+     Pre-trained GloVe vectors (glove.6B.100d.txt)  
+     Cleaned data (.npy)  
+     Tokenizes text -> converts to padded sequences  
+     Encodes labels with LabelEncoder → saves encoder (label_encoder.pkl)
+     
+ii. CNN:  
+     Embedding layer (with GloVe weights, frozen)  
+     Multiple convolution filters ( andnel sizes: 2,3,5)  
+     Max-pooling  
+     Dropout (prevents overfitting)  
+     Dense layer with softmax output  
+     Compiles with categorical_crossentropy loss & adam optimizer  
+     Splits into train & validation sets  
+     Trains & plots accuracy / loss
+     
+iii. Saves:  
         Trained model (model.h5)  
         Tokenizer (tokenizer.pkl)  
         Label encoder
