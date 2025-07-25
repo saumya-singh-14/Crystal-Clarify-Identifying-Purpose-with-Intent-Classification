@@ -76,14 +76,14 @@ pip install numpy matplotlib scikit-learn  andas tensorflow joblib streamlit
 
 3. How to Run
 
-i. Prepare data
-python prepare.py
-(Cleans text, creates .txt and .npy files)
-
-ii. Train model
-python train.py
-(Builds CNN model, loads GloVe embeddings, saves: model.h5 tokenizer.pkl label_encoder.pkl, plots accuracy & loss curves)
-
-iii. Predict intents (web app)
-streamlit run test.py
-(Opens browser, enter sentence -> predicts intent)
+    i. Prepare data
+    python prepare.py
+    (Cleans text, creates .txt and .npy files)
+    
+    ii. Train model
+    python train.py
+    (Builds CNN model, loads GloVe embeddings, saves: model.h5 tokenizer.pkl label_encoder.pkl, plots accuracy & loss curves)
+    
+    iii. Predict intents (web app)
+    streamlit run test.py
+    (Opens browser, enter sentence -> predicts intent)
